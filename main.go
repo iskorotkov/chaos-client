@@ -64,6 +64,8 @@ func getCounter(address string) error {
 		return err
 	}
 
+	defer func() { _ = r.Body.Close() }()
+
 	buf := make([]byte, 512)
 	num, err := r.Body.Read(buf)
 	if err != nil && err != io.EOF {
@@ -77,11 +79,13 @@ func getCounter(address string) error {
 }
 
 func incCounter(address string) error {
-	_, err := http.Post(address, "", nil)
+	r, err := http.Post(address, "", nil)
 	if err != nil {
 		fmt.Printf("Error occured when reaching to server: %v\n", err)
 		return err
 	}
+
+	defer func() { _ = r.Body.Close() }()
 
 	fmt.Println("Counter has been incremented")
 	return nil
