@@ -4,10 +4,10 @@ RUN apk add --no-cache git
 WORKDIR /go/src/app
 COPY . .
 RUN go get -d -v ./...
-RUN go install -v ./...
+RUN CGO_ENABLED=0 go install -v ./...
 
 #final stage
-FROM alpine:latest
-RUN apk --no-cache add ca-certificates
+FROM debian:stable
+RUN apt update && apt install -y ca-certificates
 COPY --from=builder /go/bin/chaos-client /app
 ENTRYPOINT ["./app"]
