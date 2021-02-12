@@ -1,13 +1,7 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: chaos-app
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: reader
-  namespace: chaos-app
   labels:
     app: reader
   annotations:
@@ -37,14 +31,13 @@ spec:
             - "1"
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "64Mi"
+              cpu: "50m"
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: writer
-  namespace: chaos-app
   labels:
     app: writer
   annotations:
@@ -75,5 +68,5 @@ spec:
             - "1"
           resources:
             limits:
-              memory: "128Mi"
-              cpu: "500m"
+              memory: "64Mi"
+              cpu: "50m"
